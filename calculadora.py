@@ -13,16 +13,18 @@ def division(a, b):
     return a / b
 
 
+historial = []
+
 print("Calculadora básica")
 
 while True:
-    print("\n--- A joder la calculadora ---")
+    print("\n--- Nueva operación ---")
 
     try:
         a = float(input("Ingresa el primer número: "))
         b = float(input("Ingresa el segundo número: "))
     except ValueError:
-        print("Error: debes ingresar números válidos chaval")
+        print("Error: debes ingresar números válidos")
         continue
 
     print("1. Suma")
@@ -30,19 +32,67 @@ while True:
     print("3. Multiplicación")
     print("4. División")
     print("5. Salir")
+    print("6. Ver historial")
 
     op = input("Opción: ")
 
     if op == "1":
-        print("Resultado:", suma(a, b))
+        resultado = suma(a, b)
+        print("Resultado:", resultado)
+
+        operacion = f"{a} + {b} = {resultado}"
+        historial.append(operacion)
+
+        with open("historial.txt", "a") as f:
+            f.write(operacion + "\n")
+
+
+
     elif op == "2":
-        print("Resultado:", resta(a, b))
+        resultado = resta(a, b)
+        print("Resultado:", resultado)
+        
+        operacion = f"{a} - {b} = {resultado}"
+        historial.append(operacion)
+
+        with open("historial.txt", "a") as f:
+            f.write(operacion + "\n")
+
     elif op == "3":
-        print("Resultado:", multiplicacion(a, b))
+        resultado = multiplicacion(a, b)
+        print("Resultado:", resultado)
+
+        operacion = f"{a} * {b} = {resultado}"
+        historial.append(operacion)
+
+        with open("historial.txt", "a") as f:
+            f.write(operacion + "\n")
+
     elif op == "4":
-        print("Resultado:", division(a, b))
+        resultado = division(a, b)
+        print("Resultado:", resultado)
+
+        operacion = f"{a} / {b} = {resultado}"
+        historial.append(operacion)
+
+        with open("historial.txt", "a") as f:
+            f.write(operacion + "\n")
+
     elif op == "5":
         print("Saliendo...")
         break
+
+    elif op == "6":
+        print("\n--- Historial ---")
+        try:
+            with open("historial.txt", "r") as f:
+                contenido = f.read()
+                if contenido == "":
+                    print("No hay operaciones en el historial.")
+                else:
+                    print(contenido)
+        except FileNotFoundError:
+            print("No hay historial disponible.")
+
     else:
         print("Opción no válida")
